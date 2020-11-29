@@ -159,11 +159,31 @@ function App() {
   const [city, setCity] = useState([])
   const [town, setTown] = useState([])
   const handleState=(idx)=>{
-    city.push(idx);
-    setCity([...city]);
+    if(city.includes(idx)){
+      const index=city.indexOf(idx);
+      city.splice(index,1);
+      setCity([...city]);
+    }else{
+      city.push(idx);
+      setCity([...city]);
+    }
+    console.log(city);
   }
   const handleCity=(cidx)=>{
+    city.pop();
+    setCity([...city]);
+    if(town.includes(cidx)){
+      const index=town.indexOf(cidx);
+      town.splice(index,1);
+      setTown([...town]);
+    }else{
     town.push(cidx);
+    setTown([...town]);
+    }
+    console.log("town",town);
+  }
+  const handleTown=(tidx)=>{
+    town.pop();
     setTown([...town]);
   }
 
@@ -175,7 +195,7 @@ function App() {
         {city.includes(idx)?<ol>
           {state.cities.map((cityName,cidx)=>(<li id={"city"+(cidx+1)} key={`${cityName}_${cidx}`} onClick={()=>handleCity(`${idx}_${cidx}`)}>{cityName.name}
           {town.includes(`${idx}_${cidx}`)?<ol>
-            {cityName.towns.map((townName,tidx)=>(<li id={"town"+(tidx+1)} key={`${townName}_${tidx}`}>{townName.name}</li>))}
+            {cityName.towns.map((townName,tidx)=>(<li id={"town"+(tidx+1)} key={`${townName}_${tidx}`} onClick={()=>handleTown(`${cidx}_${tidx}`)}>{townName.name}</li>))}
           </ol>:null}
           </li>
           ))}
