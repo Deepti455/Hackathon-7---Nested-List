@@ -154,8 +154,36 @@ const states = [
   },
 ];
 
+
 function App() {
-  return <div id="main"></div>;
-}
+  const [city, setCity] = useState([])
+  const [town, setTown] = useState([])
+  const handleState=(idx)=>{
+    city.push(idx);
+    setCity([...city]);
+  }
+  const handleCity=(cidx)=>{
+    town.push(cidx);
+    setTown([...town]);
+  }
+
+  return (
+  <div id="main">  
+    <ol>
+      {states.map((state,idx)=>(
+        <li id={"state"+(idx+1)} key={`${state}_${idx}`} onClick={()=>handleState(idx)}>{state.name}
+        {city.includes(idx)?<ol>
+          {state.cities.map((cityName,cidx)=>(<li id={"city"+(cidx+1)} key={`${cityName}_${cidx}`} onClick={()=>handleCity(`${idx}_${cidx}`)}>{cityName.name}
+          {town.includes(`${idx}_${cidx}`)?<ol>
+            {cityName.towns.map((townName,tidx)=>(<li id={"town"+(tidx+1)} key={`${townName}_${tidx}`}>{townName.name}</li>))}
+          </ol>:null}
+          </li>
+          ))}
+        </ol>:null}
+        </li>
+      ))}
+    </ol>
+  </div>
+);}
 
 export default App;
